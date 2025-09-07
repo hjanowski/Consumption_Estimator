@@ -1,0 +1,650 @@
+import React, { useState, useEffect } from 'react';
+import { Calculator, Users, BarChart3, Layers, Calendar, Zap, TrendingUp } from 'lucide-react';
+
+const MarketingIntelligenceEstimator = () => {
+  const [formData, setFormData] = useState({
+    thirdPartyPlatforms: '',
+    accountsPerPlatform: '',
+    campaignsPerYear: '',
+    adGroupsPerCampaign: '',
+    creativesPerAdGroup: '',
+    campaignDuration: '',
+    additionalDashboards: '',
+    executiveDashboards: '',
+    namingConventionPatterns: '',
+    dataEnrichments: ''
+  });
+
+  const [results, setResults] = useState({
+    dataPipelines: 0,
+    avgDailyRowsPerPipeline: 0,
+    totalYearlyRows: 0,
+    defaultDashboards: 0,
+    totalDashboards: 0,
+    totalPatterns: 0,
+    totalDataEnrichments: 0
+  });
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  useEffect(() => {
+    calculateResults();
+  }, [formData]);
+
+  const calculateResults = () => {
+    const platforms = parseFloat(formData.thirdPartyPlatforms) || 0;
+    const accountsPerPlatform = parseFloat(formData.accountsPerPlatform) || 0;
+    const campaigns = parseFloat(formData.campaignsPerYear) || 0;
+    const adGroups = parseFloat(formData.adGroupsPerCampaign) || 0;
+    const creatives = parseFloat(formData.creativesPerAdGroup) || 0;
+    const duration = parseFloat(formData.campaignDuration) || 0;
+    const additionalDashboards = parseFloat(formData.additionalDashboards) || 0;
+    const executiveDashboards = parseFloat(formData.executiveDashboards) || 0;
+    const namingConventionPatterns = parseFloat(formData.namingConventionPatterns) || 0;
+    const dataEnrichments = parseFloat(formData.dataEnrichments) || 0;
+
+    const dataPipelines = platforms * accountsPerPlatform;
+    const avgDailyRowsPerPipeline = campaigns * adGroups * creatives * dataPipelines * duration / 365;
+    const totalYearlyRows = dataPipelines * avgDailyRowsPerPipeline * 365;
+    const defaultDashboards = platforms;
+    const totalDashboards = defaultDashboards + additionalDashboards + executiveDashboards;
+    const totalPatterns = namingConventionPatterns;
+    const totalDataEnrichments = dataEnrichments;
+
+    setResults({
+      dataPipelines,
+      avgDailyRowsPerPipeline,
+      totalYearlyRows,
+      defaultDashboards,
+      totalDashboards,
+      totalPatterns,
+      totalDataEnrichments
+    });
+  };
+
+  const formatNumber = (num) => {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'K';
+    }
+    return Math.round(num).toLocaleString();
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto p-6 bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+      {/* Header */}
+      <div className="text-center mb-8">
+        <div className="flex justify-center items-center gap-3 mb-4">
+          <Calculator className="w-8 h-8 text-indigo-600" />
+          <h1 className="text-3xl font-bold text-gray-800">Marketing Intelligence Consumption Estimator</h1>
+        </div>
+        <p className="text-gray-600">Help prospects estimate their yearly data consumption for informed decision-making</p>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-8">
+        {/* Input Form */}
+        <div className="space-y-6">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6">Data Collection</h2>
+          
+          {/* Third Party Platforms */}
+          <div className="bg-white rounded-xl shadow-md p-6 border border-indigo-200">
+            <div className="flex items-start gap-3 mb-4">
+              <Layers className="w-5 h-5 text-indigo-600 mt-1" />
+              <div className="flex-1">
+                <label className="text-lg font-medium text-gray-800 mb-2 block">
+                  How many different advertising platforms do you use?
+                </label>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-full flex items-center justify-center">
+                    <Users className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs font-medium text-indigo-600">Best to ask: Marketing Operations or IT Manager</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">
+                  Think about all the places where you run ads - each platform is a separate data source we'll need to connect to.
+                </p>
+                <p className="text-xs text-indigo-600 mb-3">
+                  Examples: Google Ads, Facebook/Meta, LinkedIn, TikTok, Amazon, Twitter, Snapchat
+                </p>
+                <input
+                  type="number"
+                  value={formData.thirdPartyPlatforms}
+                  onChange={(e) => handleInputChange('thirdPartyPlatforms', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  placeholder="e.g., 5"
+                  min="0"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Accounts Per Platform */}
+          <div className="bg-white rounded-xl shadow-md p-6 border border-indigo-200">
+            <div className="flex items-start gap-3 mb-4">
+              <Users className="w-5 h-5 text-green-600 mt-1" />
+              <div className="flex-1">
+                <label className="text-lg font-medium text-gray-800 mb-2 block">
+                  On average, how many accounts do you manage per platform?
+                </label>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 bg-gradient-to-br from-green-400 to-teal-500 rounded-full flex items-center justify-center">
+                    <Users className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs font-medium text-green-600">Best to ask: Marketing Operations or Account Manager</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">
+                  Some businesses have multiple accounts on the same platform for different brands, regions, or business units.
+                </p>
+                <p className="text-xs text-green-600 mb-3">
+                  Examples: 1 main account, 3 accounts (different regions), 2 accounts (different brands)
+                </p>
+                <input
+                  type="number"
+                  value={formData.accountsPerPlatform}
+                  onChange={(e) => handleInputChange('accountsPerPlatform', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  placeholder="e.g., 2"
+                  min="0"
+                  step="0.1"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Campaigns Per Year */}
+          <div className="bg-white rounded-xl shadow-md p-6 border border-indigo-200">
+            <div className="flex items-start gap-3 mb-4">
+              <BarChart3 className="w-5 h-5 text-purple-600 mt-1" />
+              <div className="flex-1">
+                <label className="text-lg font-medium text-gray-800 mb-2 block">
+                  How many campaigns do you typically run per year?
+                </label>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center">
+                    <Users className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs font-medium text-purple-600">Best to ask: Campaign Manager or Media Buyer</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">
+                  Include all campaigns - ongoing evergreen campaigns, seasonal promotions, product launches, etc.
+                </p>
+                <p className="text-xs text-purple-600 mb-3">
+                  Examples: 50 campaigns/year, 12 monthly campaigns, 100+ for high-volume businesses
+                </p>
+                <input
+                  type="number"
+                  value={formData.campaignsPerYear}
+                  onChange={(e) => handleInputChange('campaignsPerYear', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  placeholder="e.g., 50"
+                  min="0"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Ad Groups Per Campaign */}
+          <div className="bg-white rounded-xl shadow-md p-6 border border-indigo-200">
+            <div className="flex items-start gap-3 mb-4">
+              <Layers className="w-5 h-5 text-orange-600 mt-1" />
+              <div className="flex-1">
+                <label className="text-lg font-medium text-gray-800 mb-2 block">
+                  On average, how many ad groups (or ad sets) do you have per campaign?
+                </label>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center">
+                    <Users className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs font-medium text-orange-600">Best to ask: Creative Director or Media Buyer</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">
+                  Ad groups help you organize ads by theme, audience, or targeting criteria within each campaign.
+                </p>
+                <p className="text-xs text-orange-600 mb-3">
+                  Examples: 3-5 for simple campaigns, 10-15 for complex audience targeting, 20+ for comprehensive testing
+                </p>
+                <input
+                  type="number"
+                  value={formData.adGroupsPerCampaign}
+                  onChange={(e) => handleInputChange('adGroupsPerCampaign', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  placeholder="e.g., 8"
+                  min="0"
+                  step="0.1"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Creatives Per Ad Group */}
+          <div className="bg-white rounded-xl shadow-md p-6 border border-indigo-200">
+            <div className="flex items-start gap-3 mb-4">
+              <Zap className="w-5 h-5 text-yellow-600 mt-1" />
+              <div className="flex-1">
+                <label className="text-lg font-medium text-gray-800 mb-2 block">
+                  How many different ads (creatives) do you typically test per ad group?
+                </label>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                    <Users className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs font-medium text-yellow-600">Best to ask: Creative Director or Content Manager</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">
+                  This includes different headlines, descriptions, images, videos, or any creative variations you test.
+                </p>
+                <p className="text-xs text-yellow-600 mb-3">
+                  Examples: 2-3 for basic A/B testing, 5-10 for comprehensive creative testing, 15+ for dynamic creative optimization
+                </p>
+                <input
+                  type="number"
+                  value={formData.creativesPerAdGroup}
+                  onChange={(e) => handleInputChange('creativesPerAdGroup', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  placeholder="e.g., 5"
+                  min="0"
+                  step="0.1"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Campaign Duration */}
+          <div className="bg-white rounded-xl shadow-md p-6 border border-indigo-200">
+            <div className="flex items-start gap-3 mb-4">
+              <Calendar className="w-5 h-5 text-blue-600 mt-1" />
+              <div className="flex-1">
+                <label className="text-lg font-medium text-gray-800 mb-2 block">
+                  On average, how many days does each campaign run?
+                </label>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center">
+                    <Users className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs font-medium text-blue-600">Best to ask: Campaign Manager or Marketing Manager</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">
+                  Consider your typical campaign duration - some might be short promotions while others run continuously.
+                </p>
+                <p className="text-xs text-blue-600 mb-3">
+                  Examples: 7 days (weekly promotions), 30 days (monthly campaigns), 90 days (quarterly), 365 days (always-on)
+                </p>
+                <input
+                  type="number"
+                  value={formData.campaignDuration}
+                  onChange={(e) => handleInputChange('campaignDuration', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="e.g., 45"
+                  min="0"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Dashboard Section Header */}
+          <div className="mt-12 mb-6">
+            <h3 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+              <BarChart3 className="w-6 h-6 text-indigo-600" />
+              Dashboard Requirements
+            </h3>
+            <p className="text-sm text-gray-600 mt-2">
+              Beyond the default dashboards we create for each platform, let's understand your additional visualization needs.
+            </p>
+          </div>
+
+          {/* Default Dashboards Info */}
+          <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl shadow-md p-6 border border-indigo-200">
+            <div className="flex items-start gap-3 mb-4">
+              <BarChart3 className="w-5 h-5 text-indigo-600 mt-1" />
+              <div className="flex-1">
+                <h4 className="text-lg font-medium text-gray-800 mb-2">
+                  Default Dashboards (Included)
+                </h4>
+                <p className="text-sm text-gray-600 mb-3">
+                  We automatically create one comprehensive dashboard for each advertising platform you connect. These show key metrics like spend, impressions, clicks, and conversions for that specific platform.
+                </p>
+                <div className="bg-white rounded-lg p-3 border border-indigo-200">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">Platforms connected:</span>
+                    <span className="text-lg font-semibold text-indigo-600">{formData.thirdPartyPlatforms || 0}</span>
+                  </div>
+                  <div className="flex items-center justify-between mt-1">
+                    <span className="text-sm text-gray-600">Default dashboards:</span>
+                    <span className="text-lg font-semibold text-indigo-600">{results.defaultDashboards}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Theme-Based Dashboards */}
+          <div className="bg-white rounded-xl shadow-md p-6 border border-indigo-200">
+            <div className="flex items-start gap-3 mb-4">
+              <TrendingUp className="w-5 h-5 text-emerald-600 mt-1" />
+              <div className="flex-1">
+                <label className="text-lg font-medium text-gray-800 mb-2 block">
+                  How many additional theme-focused dashboards do you need?
+                </label>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full flex items-center justify-center">
+                    <Users className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs font-medium text-emerald-600">Best to ask: Marketing Manager or Analytics Lead</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">
+                  Think about specific themes or focuses beyond individual platforms. Each dashboard contains 15-20 visualizations (widgets) around a specific topic.
+                </p>
+                <div className="bg-gray-50 rounded-lg p-4 mb-3">
+                  <p className="text-xs text-gray-700 mb-3"><strong>What's a visualization (widget)?</strong> A single chart, graph, or metric display. Here's an example:</p>
+                  <div className="bg-white rounded border p-3 mb-2">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-medium text-gray-600">Monthly Spend Trend</span>
+                      <TrendingUp className="w-3 h-3 text-green-500" />
+                    </div>
+                    <div className="flex items-end gap-1 h-8">
+                      <div className="bg-blue-500 w-2" style={{height: '20%'}}></div>
+                      <div className="bg-blue-500 w-2" style={{height: '40%'}}></div>
+                      <div className="bg-blue-500 w-2" style={{height: '60%'}}></div>
+                      <div className="bg-blue-500 w-2" style={{height: '80%'}}></div>
+                      <div className="bg-blue-500 w-2" style={{height: '100%'}}></div>
+                      <div className="bg-blue-500 w-2" style={{height: '70%'}}></div>
+                    </div>
+                    <div className="flex justify-between text-xs text-gray-500 mt-1">
+                      <span>Jan</span>
+                      <span>Jun</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-700"><strong>What's a dashboard?</strong> A collection of 15-20 related widgets focused on one theme, like "Campaign Performance" or "ROI Analysis"</p>
+                </div>
+                <p className="text-xs text-emerald-600 mb-3">
+                  Examples: Campaign Performance dashboard, ROI Analysis dashboard, Creative Performance dashboard, Audience Insights dashboard
+                </p>
+                <input
+                  type="number"
+                  value={formData.additionalDashboards}
+                  onChange={(e) => handleInputChange('additionalDashboards', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  placeholder="e.g., 3"
+                  min="0"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Executive Dashboards */}
+          <div className="bg-white rounded-xl shadow-md p-6 border border-indigo-200">
+            <div className="flex items-start gap-3 mb-4">
+              <BarChart3 className="w-5 h-5 text-rose-600 mt-1" />
+              <div className="flex-1">
+                <label className="text-lg font-medium text-gray-800 mb-2 block">
+                  How many executive or high-level summary dashboards do you need?
+                </label>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 bg-gradient-to-br from-rose-400 to-pink-500 rounded-full flex items-center justify-center">
+                    <Users className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs font-medium text-rose-600">Best to ask: CMO, Marketing Director, or VP Marketing</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">
+                  These are high-level dashboards designed for leadership, focusing on KPIs, trends, and strategic insights rather than operational details.
+                </p>
+                <p className="text-xs text-rose-600 mb-3">
+                  Examples: "Executive Marketing Summary", "Monthly Performance Overview", "Budget vs Performance", "Strategic KPI Dashboard"
+                </p>
+                <input
+                  type="number"
+                  value={formData.executiveDashboards}
+                  onChange={(e) => handleInputChange('executiveDashboards', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                  placeholder="e.g., 1"
+                  min="0"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Patterns Section Header */}
+          <div className="mt-12 mb-6">
+            <h3 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+              <Layers className="w-6 h-6 text-indigo-600" />
+              Pattern Requirements
+            </h3>
+            <p className="text-sm text-gray-600 mt-2">
+              Patterns help extract meaningful information from your naming conventions in campaign names, ad groups, and other dimensions.
+            </p>
+          </div>
+
+          {/* Naming Convention Patterns */}
+          <div className="bg-white rounded-xl shadow-md p-6 border border-indigo-200">
+            <div className="flex items-start gap-3 mb-4">
+              <Layers className="w-5 h-5 text-amber-600 mt-1" />
+              <div className="flex-1">
+                <label className="text-lg font-medium text-gray-800 mb-2 block">
+                  How many different naming convention patterns do you maintain?
+                </label>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center">
+                    <Users className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs font-medium text-amber-600">Best to ask: Campaign Manager or Marketing Operations</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">
+                  Think about the different structured naming formats you use across campaigns, ad groups, or creatives to embed information like product categories, audience segments, or campaign types.
+                </p>
+                <div className="bg-amber-50 rounded-lg p-4 mb-3 border border-amber-200">
+                  <p className="text-xs text-gray-700 mb-3"><strong>What's a naming convention pattern?</strong> A structured format that embeds information in names. For example:</p>
+                  <div className="space-y-2">
+                    <div className="bg-white rounded border p-2">
+                      <p className="text-xs font-medium text-gray-600 mb-1">Pattern 1: Product_Audience_Season</p>
+                      <p className="text-xs text-gray-500">Example: "Shoes_Women_Summer2024"</p>
+                      <p className="text-xs text-amber-600">Extracts: Product Type, Target Audience, Season</p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-700 mt-3">Each unique naming format counts as one pattern. This helps automatically categorize and analyze your campaigns by the embedded information.</p>
+                </div>
+                <p className="text-xs text-amber-600 mb-3">
+                  Examples: 3 patterns (product campaigns, brand campaigns, retargeting), 5 patterns (different business units), 1 pattern (consistent company-wide naming)
+                </p>
+                <input
+                  type="number"
+                  value={formData.namingConventionPatterns}
+                  onChange={(e) => handleInputChange('namingConventionPatterns', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  placeholder="e.g., 3"
+                  min="0"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Data Enrichments Section Header */}
+          <div className="mt-12 mb-6">
+            <h3 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+              <Zap className="w-6 h-6 text-indigo-600" />
+              Data Enrichment Requirements
+            </h3>
+            <p className="text-sm text-gray-600 mt-2">
+              Data enrichments help clean and normalize inconsistent data values across your dimensions for better analysis.
+            </p>
+          </div>
+
+          {/* Data Enrichments Question */}
+          <div className="bg-white rounded-xl shadow-md p-6 border border-indigo-200">
+            <div className="flex items-start gap-3 mb-4">
+              <Zap className="w-5 h-5 text-teal-600 mt-1" />
+              <div className="flex-1">
+                <label className="text-lg font-medium text-gray-800 mb-2 block">
+                  How many dimensions have inconsistent values that need cleaning or normalization?
+                </label>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center">
+                    <Users className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs font-medium text-teal-600">Best to ask: Data Analyst or Marketing Operations</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">
+                  Think about data fields where you see variations of the same value that should be standardized, or different values that should be grouped under the same category.
+                </p>
+                <div className="bg-teal-50 rounded-lg p-4 mb-3 border border-teal-200">
+                  <p className="text-xs text-gray-700 mb-3"><strong>What's a data enrichment?</strong> A rule that cleans or normalizes one dimension. Examples:</p>
+                  <div className="space-y-3">
+                    <div className="bg-white rounded border p-3">
+                      <p className="text-xs font-medium text-gray-600 mb-2">Enrichment 1: Region Normalization</p>
+                      <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div>
+                          <p className="text-gray-500 mb-1">Before (inconsistent):</p>
+                          <div className="bg-red-50 p-1 rounded text-red-700">
+                            <div>"US", "USA", "us", "AMER"</div>
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-gray-500 mb-1">After (normalized):</p>
+                          <div className="bg-green-50 p-1 rounded text-green-700">
+                            <div>All become "United States"</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-white rounded border p-3">
+                      <p className="text-xs font-medium text-gray-600 mb-2">Enrichment 2: Device Category Grouping</p>
+                      <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div>
+                          <p className="text-gray-500 mb-1">Before (scattered):</p>
+                          <div className="bg-red-50 p-1 rounded text-red-700">
+                            <div>"iPhone 15", "Samsung S24", "Pixel 8"</div>
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-gray-500 mb-1">After (grouped):</p>
+                          <div className="bg-green-50 p-1 rounded text-green-700">
+                            <div>All become "Mobile Device"</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-700 mt-3">Each dimension that needs cleaning counts as one enrichment. This creates standardized values for better reporting and analysis.</p>
+                </div>
+                <p className="text-xs text-teal-600 mb-3">
+                  Examples: 5 enrichments (Region, Device, Campaign Type, Audience, Product Category), 2 enrichments (just Region and Device), 0 if data is already clean
+                </p>
+                <input
+                  type="number"
+                  value={formData.dataEnrichments}
+                  onChange={(e) => handleInputChange('dataEnrichments', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  placeholder="e.g., 4"
+                  min="0"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Results Panel */}
+        <div className="space-y-6">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6">Consumption Estimate</h2>
+          
+          {/* Data Pipelines Result */}
+          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-indigo-500">
+            <div className="flex items-center gap-3 mb-2">
+              <Layers className="w-6 h-6 text-indigo-600" />
+              <h3 className="text-xl font-semibold text-gray-800">Data Pipelines</h3>
+            </div>
+            <div className="text-3xl font-bold text-indigo-600 mb-2">
+              {formatNumber(results.dataPipelines)}
+            </div>
+            <p className="text-sm text-gray-600">
+              Total number of data pipeline connections needed
+            </p>
+          </div>
+
+          {/* Daily Rows Result with Yearly Total */}
+          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+            <div className="flex items-center gap-3 mb-2">
+              <BarChart3 className="w-6 h-6 text-purple-600" />
+              <h3 className="text-xl font-semibold text-gray-800">Avg Daily Rows Per Pipeline</h3>
+            </div>
+            <div className="text-3xl font-bold text-purple-600 mb-2">
+              {formatNumber(results.avgDailyRowsPerPipeline)}
+            </div>
+            <p className="text-sm text-gray-600 mb-3">
+              Average daily data rows generated per pipeline
+            </p>
+            <div className="bg-purple-50 rounded-lg p-3 border border-purple-200">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600">Total yearly rows:</span>
+                <span className="text-lg font-semibold text-purple-600">{formatNumber(results.totalYearlyRows)}</span>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Estimated total data consumption per year</p>
+            </div>
+          </div>
+
+          {/* Total Dashboards Result */}
+          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-emerald-500">
+            <div className="flex items-center gap-3 mb-2">
+              <BarChart3 className="w-6 h-6 text-emerald-600" />
+              <h3 className="text-xl font-semibold text-gray-800">Total Dashboards</h3>
+            </div>
+            <div className="text-3xl font-bold text-emerald-600 mb-2">
+              {formatNumber(results.totalDashboards)}
+            </div>
+            <p className="text-sm text-gray-600 mb-3">
+              Complete dashboard setup for your organization
+            </p>
+            <div className="text-xs text-gray-500 space-y-1">
+              <div className="flex justify-between">
+                <span>Default (per platform):</span>
+                <span>{results.defaultDashboards}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Additional custom:</span>
+                <span>{formData.additionalDashboards || 0}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Executive:</span>
+                <span>{formData.executiveDashboards || 0}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Total Patterns Result */}
+          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-amber-500">
+            <div className="flex items-center gap-3 mb-2">
+              <Layers className="w-6 h-6 text-amber-600" />
+              <h3 className="text-xl font-semibold text-gray-800">Total Patterns</h3>
+            </div>
+            <div className="text-3xl font-bold text-amber-600 mb-2">
+              {formatNumber(results.totalPatterns)}
+            </div>
+            <p className="text-sm text-gray-600">
+              Naming convention patterns for data extraction
+            </p>
+          </div>
+
+          {/* Total Data Enrichments Result */}
+          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-teal-500">
+            <div className="flex items-center gap-3 mb-2">
+              <Zap className="w-6 h-6 text-teal-600" />
+              <h3 className="text-xl font-semibold text-gray-800">Total Data Enrichments</h3>
+            </div>
+            <div className="text-3xl font-bold text-teal-600 mb-2">
+              {formatNumber(results.totalDataEnrichments)}
+            </div>
+            <p className="text-sm text-gray-600">
+              Data dimensions requiring cleaning and normalization
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MarketingIntelligenceEstimator;
