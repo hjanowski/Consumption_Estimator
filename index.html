@@ -6,7 +6,166 @@
     <title>Marketing Intelligence Consumption Estimator</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #dbeafe 0%, #c7d2fe 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+            min-height: 100vh;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+        .subtitle {
+            color: #6b7280;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 24px;
+        }
+        .input-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            border: 1px solid #c7d2fe;
+        }
+        .input-label {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: #1f2937;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .input-desc {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+        .input-examples {
+            font-size: 0.75rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        .results-section {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .result-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            border-left: 4px solid;
+        }
+        .result-card.indigo {
+            border-left-color: #6366f1;
+        }
+        .result-card.purple {
+            border-left-color: #8b5cf6;
+        }
+        .result-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        .result-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .result-value.indigo {
+            color: #6366f1;
+        }
+        .result-value.purple {
+            color: #8b5cf6;
+        }
+        .result-desc {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+        .yearly-box {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+        }
+        .yearly-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .yearly-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        .yearly-value {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #8b5cf6;
+        }
+        .yearly-desc {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+        .indigo-text { color: #6366f1; }
+        .green-text { color: #059669; }
+        .purple-text { color: #8b5cf6; }
+        .orange-text { color: #ea580c; }
+        .yellow-text { color: #d97706; }
+        .blue-text { color: #2563eb; }
+    </style>
 </head>
 <body>
     <div id="root">
@@ -96,61 +255,61 @@
             };
 
             return React.createElement('div', {
-                className: "max-w-4xl mx-auto p-6 bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen"
+                className: "container"
             }, [
                 // Header
                 React.createElement('div', {
                     key: 'header',
-                    className: "text-center mb-8"
+                    className: "header"
                 }, [
                     React.createElement('h1', {
                         key: 'title',
-                        className: "text-3xl font-bold text-gray-800 mb-4"
+                        className: "title"
                     }, 'Marketing Intelligence Consumption Estimator'),
                     React.createElement('p', {
                         key: 'subtitle',
-                        className: "text-gray-600"
+                        className: "subtitle"
                     }, 'Help prospects estimate their yearly data consumption for informed decision-making')
                 ]),
 
                 // Main Grid
                 React.createElement('div', {
                     key: 'main-grid',
-                    className: "grid md:grid-cols-2 gap-8"
+                    className: "grid"
                 }, [
                     // Input Form
                     React.createElement('div', {
                         key: 'input-form',
-                        className: "space-y-6"
+                        className: "form-section"
                     }, [
                         React.createElement('h2', {
                             key: 'form-title',
-                            className: "text-2xl font-semibold text-gray-800 mb-6"
+                            className: "section-title"
                         }, 'Data Collection'),
 
                         // Platforms Input
                         React.createElement('div', {
                             key: 'platforms',
-                            className: "bg-white rounded-xl shadow-md p-6 border border-indigo-200"
+                            className: "input-card"
                         }, [
                             React.createElement('label', {
                                 key: 'platforms-label',
-                                className: "text-lg font-medium text-gray-800 mb-2 block"
+                                className: "input-label"
                             }, 'How many different advertising platforms do you use?'),
                             React.createElement('p', {
                                 key: 'platforms-desc',
-                                className: "text-sm text-gray-600 mb-3"
+                                className: "input-desc"
                             }, 'Think about all the places where you run ads - each platform is a separate data source.'),
                             React.createElement('p', {
                                 key: 'platforms-examples',
-                                className: "text-xs text-indigo-600 mb-3"
+                                className: "input-examples indigo-text"
                             }, 'Examples: Google Ads, Facebook/Meta, LinkedIn, TikTok, Amazon, Twitter, Snapchat'),
                             React.createElement('input', {
                                 key: 'platforms-input',
                                 type: 'number',
                                 value: formData.thirdPartyPlatforms,
                                 onChange: (e) => handleInputChange('thirdPartyPlatforms', e.target.value),
-                                className: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500",
+                                className: "input-field",
                                 placeholder: "e.g., 5",
                                 min: "0"
                             })
@@ -159,26 +318,26 @@
                         // Accounts Input
                         React.createElement('div', {
                             key: 'accounts',
-                            className: "bg-white rounded-xl shadow-md p-6 border border-indigo-200"
+                            className: "input-card"
                         }, [
                             React.createElement('label', {
                                 key: 'accounts-label',
-                                className: "text-lg font-medium text-gray-800 mb-2 block"
+                                className: "input-label"
                             }, 'On average, how many accounts do you manage per platform?'),
                             React.createElement('p', {
                                 key: 'accounts-desc',
-                                className: "text-sm text-gray-600 mb-3"
+                                className: "input-desc"
                             }, 'Some businesses have multiple accounts on the same platform for different brands or regions.'),
                             React.createElement('p', {
                                 key: 'accounts-examples',
-                                className: "text-xs text-green-600 mb-3"
+                                className: "input-examples green-text"
                             }, 'Examples: 1 main account, 3 accounts (different regions), 2 accounts (different brands)'),
                             React.createElement('input', {
                                 key: 'accounts-input',
                                 type: 'number',
                                 value: formData.accountsPerPlatform,
                                 onChange: (e) => handleInputChange('accountsPerPlatform', e.target.value),
-                                className: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500",
+                                className: "input-field",
                                 placeholder: "e.g., 2",
                                 min: "0",
                                 step: "0.1"
@@ -188,26 +347,26 @@
                         // Campaigns Input
                         React.createElement('div', {
                             key: 'campaigns',
-                            className: "bg-white rounded-xl shadow-md p-6 border border-indigo-200"
+                            className: "input-card"
                         }, [
                             React.createElement('label', {
                                 key: 'campaigns-label',
-                                className: "text-lg font-medium text-gray-800 mb-2 block"
+                                className: "input-label"
                             }, 'How many campaigns do you typically run per year?'),
                             React.createElement('p', {
                                 key: 'campaigns-desc',
-                                className: "text-sm text-gray-600 mb-3"
+                                className: "input-desc"
                             }, 'Include all campaigns - ongoing evergreen campaigns, seasonal promotions, product launches, etc.'),
                             React.createElement('p', {
                                 key: 'campaigns-examples',
-                                className: "text-xs text-purple-600 mb-3"
+                                className: "input-examples purple-text"
                             }, 'Examples: 50 campaigns/year, 12 monthly campaigns, 100+ for high-volume businesses'),
                             React.createElement('input', {
                                 key: 'campaigns-input',
                                 type: 'number',
                                 value: formData.campaignsPerYear,
                                 onChange: (e) => handleInputChange('campaignsPerYear', e.target.value),
-                                className: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500",
+                                className: "input-field",
                                 placeholder: "e.g., 50",
                                 min: "0"
                             })
@@ -216,26 +375,26 @@
                         // Ad Groups Input
                         React.createElement('div', {
                             key: 'adgroups',
-                            className: "bg-white rounded-xl shadow-md p-6 border border-indigo-200"
+                            className: "input-card"
                         }, [
                             React.createElement('label', {
                                 key: 'adgroups-label',
-                                className: "text-lg font-medium text-gray-800 mb-2 block"
+                                className: "input-label"
                             }, 'On average, how many ad groups do you have per campaign?'),
                             React.createElement('p', {
                                 key: 'adgroups-desc',
-                                className: "text-sm text-gray-600 mb-3"
+                                className: "input-desc"
                             }, 'Ad groups help you organize ads by theme, audience, or targeting criteria within each campaign.'),
                             React.createElement('p', {
                                 key: 'adgroups-examples',
-                                className: "text-xs text-orange-600 mb-3"
+                                className: "input-examples orange-text"
                             }, 'Examples: 3-5 for simple campaigns, 10-15 for complex audience targeting, 20+ for comprehensive testing'),
                             React.createElement('input', {
                                 key: 'adgroups-input',
                                 type: 'number',
                                 value: formData.adGroupsPerCampaign,
                                 onChange: (e) => handleInputChange('adGroupsPerCampaign', e.target.value),
-                                className: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500",
+                                className: "input-field",
                                 placeholder: "e.g., 8",
                                 min: "0"
                             })
@@ -244,26 +403,26 @@
                         // Creatives Input
                         React.createElement('div', {
                             key: 'creatives',
-                            className: "bg-white rounded-xl shadow-md p-6 border border-indigo-200"
+                            className: "input-card"
                         }, [
                             React.createElement('label', {
                                 key: 'creatives-label',
-                                className: "text-lg font-medium text-gray-800 mb-2 block"
+                                className: "input-label"
                             }, 'How many different ads do you test per ad group?'),
                             React.createElement('p', {
                                 key: 'creatives-desc',
-                                className: "text-sm text-gray-600 mb-3"
+                                className: "input-desc"
                             }, 'This includes different headlines, descriptions, images, videos, or any creative variations you test.'),
                             React.createElement('p', {
                                 key: 'creatives-examples',
-                                className: "text-xs text-yellow-600 mb-3"
+                                className: "input-examples yellow-text"
                             }, 'Examples: 2-3 for basic A/B testing, 5-10 for comprehensive creative testing, 15+ for dynamic creative optimization'),
                             React.createElement('input', {
                                 key: 'creatives-input',
                                 type: 'number',
                                 value: formData.creativesPerAdGroup,
                                 onChange: (e) => handleInputChange('creativesPerAdGroup', e.target.value),
-                                className: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500",
+                                className: "input-field",
                                 placeholder: "e.g., 5",
                                 min: "0"
                             })
@@ -272,26 +431,26 @@
                         // Duration Input
                         React.createElement('div', {
                             key: 'duration',
-                            className: "bg-white rounded-xl shadow-md p-6 border border-indigo-200"
+                            className: "input-card"
                         }, [
                             React.createElement('label', {
                                 key: 'duration-label',
-                                className: "text-lg font-medium text-gray-800 mb-2 block"
+                                className: "input-label"
                             }, 'On average, how many days does each campaign run?'),
                             React.createElement('p', {
                                 key: 'duration-desc',
-                                className: "text-sm text-gray-600 mb-3"
+                                className: "input-desc"
                             }, 'Consider your typical campaign duration - some might be short promotions while others run continuously.'),
                             React.createElement('p', {
                                 key: 'duration-examples',
-                                className: "text-xs text-blue-600 mb-3"
+                                className: "input-examples blue-text"
                             }, 'Examples: 7 days (weekly promotions), 30 days (monthly campaigns), 90 days (quarterly), 365 days (always-on)'),
                             React.createElement('input', {
                                 key: 'duration-input',
                                 type: 'number',
                                 value: formData.campaignDuration,
                                 onChange: (e) => handleInputChange('campaignDuration', e.target.value),
-                                className: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500",
+                                className: "input-field",
                                 placeholder: "e.g., 45",
                                 min: "0"
                             })
@@ -301,69 +460,69 @@
                     // Results Panel
                     React.createElement('div', {
                         key: 'results-panel',
-                        className: "space-y-6"
+                        className: "results-section"
                     }, [
                         React.createElement('h2', {
                             key: 'results-title',
-                            className: "text-2xl font-semibold text-gray-800 mb-6"
+                            className: "section-title"
                         }, 'Consumption Estimate'),
 
                         // Data Pipelines Result
                         React.createElement('div', {
                             key: 'pipelines-result',
-                            className: "bg-white rounded-xl shadow-lg p-6 border-l-4 border-indigo-500"
+                            className: "result-card indigo"
                         }, [
                             React.createElement('h3', {
                                 key: 'pipelines-title',
-                                className: "text-xl font-semibold text-gray-800 mb-2"
+                                className: "result-title"
                             }, 'Data Pipelines'),
                             React.createElement('div', {
                                 key: 'pipelines-value',
-                                className: "text-3xl font-bold text-indigo-600 mb-2"
+                                className: "result-value indigo"
                             }, formatNumber(results.dataPipelines)),
                             React.createElement('p', {
                                 key: 'pipelines-desc',
-                                className: "text-sm text-gray-600"
+                                className: "result-desc"
                             }, 'Total number of data pipeline connections needed')
                         ]),
 
                         // Daily Rows Result
                         React.createElement('div', {
                             key: 'daily-rows-result',
-                            className: "bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500"
+                            className: "result-card purple"
                         }, [
                             React.createElement('h3', {
                                 key: 'daily-rows-title',
-                                className: "text-xl font-semibold text-gray-800 mb-2"
+                                className: "result-title"
                             }, 'Avg Daily Rows Per Pipeline'),
                             React.createElement('div', {
                                 key: 'daily-rows-value',
-                                className: "text-3xl font-bold text-purple-600 mb-2"
+                                className: "result-value purple"
                             }, formatNumber(results.avgDailyRowsPerPipeline)),
                             React.createElement('p', {
                                 key: 'daily-rows-desc',
-                                className: "text-sm text-gray-600 mb-3"
+                                className: "result-desc"
                             }, 'Average daily data rows generated per pipeline'),
                             React.createElement('div', {
                                 key: 'yearly-total-box',
-                                className: "bg-purple-50 rounded-lg p-3 border border-purple-200"
+                                className: "yearly-box"
                             }, [
                                 React.createElement('div', {
                                     key: 'yearly-total-row',
-                                    className: "flex items-center justify-between"
+                                    className: "yearly-row"
                                 }, [
                                     React.createElement('span', {
                                         key: 'yearly-total-label',
-                                        className: "text-sm text-gray-600"
+                                        className: "yearly-label"
                                     }, 'Total yearly rows:'),
                                     React.createElement('span', {
                                         key: 'yearly-total-value',
-                                        className: "text-lg font-semibold text-purple-600"
+                                        className: "yearly-value"
                                     }, formatNumber(results.totalYearlyRows))
                                 ]),
                                 React.createElement('p', {
                                     key: 'yearly-total-desc',
-                                    className: "text-xs text-gray-500 mt-1"
+                                    className: "yearly-desc"
                                 }, 'Estimated total data consumption per year')
                             ])
                         ])
